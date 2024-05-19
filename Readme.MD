@@ -1,3 +1,25 @@
+# Install Vault
+https://artifacthub.io/packages/helm/hashicorp/vault 
+https://www.hashicorp.com/blog/announcing-the-vault-helm-chart 
+
+helm install vault hashicorp/vault -n vault --create-namespace --set server.dev.enables=true 
+
+After that intialize it and unseal it: 
+
+kubectl exec -it vault-0 -n vault -- vault operator init 
+
+Ubseal it with at least 3 keys (replace with your keys, run 3 times) 
+
+kubectl exec -ti vault-0 -n vault -- vault operator unseal za7TKN10bZABo93lFF1YN4bqkn4XPatMTcGkLwPAeX4T 
+Initial Root Token: hvs.odIOMMjUACS1FOtCmhUE8iBx 
+Now:
+First create your secret engine and secret in vault 
+Then you create a policy and give permissions on the secret that you just created 
+Then you need to use command to create the token and assign it to those policies: 
+vault token create -policy=dev-readonly -policy=logs 
+And make sure to create a secret named vault-configuration.yaml so that argocd can access the vault with read access 
+
+
 # install ArgoCD with provided vaules
 # REF: https://medium.com/@raosharadhi11/argocd-with-vault-using-argocd-vault-plugin-dccbc302f0c2
 kubectl create ns argocd
