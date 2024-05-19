@@ -1,0 +1,13 @@
+[
+  {
+    "name": "k8scluster1",
+    "namespaces": [
+      {
+        "namespace": "testns1"
+      },
+      {
+        "namespace": "testns2"
+      }
+    ]
+  }
+]

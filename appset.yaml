@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: myappset
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - merge:
+              mergeKeys: 
+                - "name"
+              generators:
+                - git:
+                    repoURL: https://github.com/bahmanzadeh/argovault.git
+                    revision: HEAD
+                    files:
+                    - path: ./cluster-tenancy-map.json
+                - clusters: {} # cluster that is locally configured on Argocd
+            selector:
+              matchExpressions:
+                - key: server
+                  operator: Exists
+          - list:
+              elementsYaml: "{{ .namespaces | toYaml }}"
+  template:
+    metadata:
+      name: 'infra-{{ .name }}-{{ .namespace }}'
+    spec:
+      destination:
+        name: '{{ .name }}'
+        namespace: '{{ .namespace }}'
+      project: default
+      source:
+        # Helm Chart details
+        repoURL: https://github.com/bahmanzadeh/argovault.git
+        targetRevision: HEAD
+        path: ./mychart1
+        helm:
+          # could be "infra-{{ .namespace }}"
+          releaseName: "infra-services"
+          valueFiles:
+          - "./values/dev/k8scluster1/{{ .name }}/values.yaml"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
