@@ -10,8 +10,8 @@ kubectl exec -it vault-0 -n vault -- vault operator init
 
 Ubseal it with at least 3 keys (replace with your keys, run 3 times) 
 
-kubectl exec -ti vault-0 -n vault -- vault operator unseal za7TKN10bZABo93lFF1YN4bqkn4XPatMTcGkLwPAeX4T 
-Initial Root Token: hvs.odIOMMjUACS1FOtCmhUE8iBx 
+kubectl exec -ti vault-0 -n vault -- vault operator unseal <---> 
+you should save this somewhere: Initial Root Token: <-->
 Now:
 First create your secret engine and secret in vault 
 Then you create a policy and give permissions on the secret that you just created 
