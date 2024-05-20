@@ -1,4 +1,14 @@
-    repoServer:  
+    repoServer:
+      rbac:
+        - verbs:
+            - get
+            - list
+            - watch
+          apiGroups:
+            - ''
+          resources:
+            - secrets
+            - configmaps
       automountServiceAccountToken: true
       # Each of the embedded YAMLs inside cmp-plugin ConfigMap will be mounted into it's respective plugin sidecar
       volumes:
