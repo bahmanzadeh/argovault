@@ -37,7 +37,7 @@ spec:
         # Helm Chart details
         repoURL: https://github.com/bahmanzadeh/argovault.git
         targetRevision: HEAD
-        path: ./mychart1
+        path: mychart1
         helm:
           # could be "infra-{{ .namespace }}"
           releaseName: "infra-services"
