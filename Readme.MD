@@ -15,17 +15,28 @@ kubectl exec -ti vault-0 -n vault -- vault operator unseal <--->
 you should save this somewhere: Initial Root Token: <-->
 
 kubectl port-forward vault-0 8200
-export VAULT_ADDR=http://127.0.0.1:8200
+export VAULT_ADDR=http://localhost:8200
 vault login root 
 
 Now:
 First create your secret engine and secret in vault 
 Then you create a policy and give permissions on the secret that you just created 
-path "kv/*" {
+
+path "kv/data/application" {
   capabilities = [ "read" ]
 }
+
+
 Then you need to use command to create the token and assign it to those policies: 
+
 vault token create -policy=argopolicy
+
+you can test like this:
+vault login
+
+vault kv get -mount="kv" "application"
+
+
 And make sure to create a secret named vault-configuration.yaml so that argocd can access the vault with read access 
 
 

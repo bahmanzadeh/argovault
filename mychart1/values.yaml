@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 kafka:
-  user: <path:/v1/kv-v2/data/application#user>
-  password: <path:/v1/kv-v2/data/application#password>
+  user: <path:kv/data/application#user>
+  password: <path:kv/data/application#password>
 
 
 

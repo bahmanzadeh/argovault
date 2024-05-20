@@ -1,3 +1,5 @@
+    repoServer:  
+      automountServiceAccountToken: true
       # Each of the embedded YAMLs inside cmp-plugin ConfigMap will be mounted into it's respective plugin sidecar
       volumes:
         - configMap:
@@ -25,7 +27,7 @@
             name: custom-tools
 
       # argocd-vault-plugin with Helm
-      containers:
+      extraContainers:
       - name: avp-helm
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v2.11.0
@@ -43,31 +45,6 @@
           # Register plugins into sidecar
           - mountPath: /home/argocd/cmp-server/config/plugin.yaml
             subPath: avp-helm.yaml
-            name: cmp-plugin
-
-          # Important: Mount tools into $PATH
-          - name: custom-tools
-            subPath: argocd-vault-plugin
-            mountPath: /usr/local/bin/argocd-vault-plugin
-
-      # argocd-vault-plugin with Kustomize
-      - name: avp-kustomize
-        command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v2.11.0
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 999
-        volumeMounts:
-          - mountPath: /var/run/argocd
-            name: var-files
-          - mountPath: /home/argocd/cmp-server/plugins
-            name: plugins
-          - mountPath: /tmp
-            name: tmp
-
-          # Register plugins into sidecar
-          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-            subPath: avp-kustomize.yaml
             name: cmp-plugin
 
           # Important: Mount tools into $PATH
