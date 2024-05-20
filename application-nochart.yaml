@@ -3,17 +3,17 @@ kind: Application
 metadata:
   name: application-nochart
   namespace: argocd
-  # finalizers:
-  #   - resources-finalizer.argocd.argoproj.io
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    name: k8scluster1
+    server: https://kubernetes.default.svc
     namespace: ns1
   project: default
   source:
     repoURL: https://github.com/bahmanzadeh/argovault.git
-    targetRevision: main
-    path: ./nochart
+    targetRevision: HEAD
+    path: nochart
   syncPolicy:
     automated:
       prune: true
