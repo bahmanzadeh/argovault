@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: application-nochart
+  namespace: argocd
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: k8scluster1
+    namespace: ns1
+  project: default
+  source:
+    repoURL: https://github.com/bahmanzadeh/argovault.git
+    targetRevision: main
+    path: ./nochart
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
