@@ -42,7 +42,7 @@ spec:
           # could be "infra-{{ .namespace }}"
           releaseName: "infra-services"
           valueFiles:
-          - "values.yaml"
+          #- "values.yaml"
           - "../values/dev/{{ .name }}/{{ .namespace }}/values.yaml"
       syncPolicy:
         automated:
