@@ -50,18 +50,18 @@ data:
         # repo-server (or, if using a sidecar, in the plugin sidecar). Only use this when the users are completely trusted. If
         # possible, determine which Helm arguments are needed by your users and explicitly pass only those arguments.
         command:
-          # - sh
-          # - "-c"
-          # - |
-          #   helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . |
-          #   argocd-vault-plugin generate -s vault-configuration ./
-          - bash
-          - "-o"
-          - pipefail
+          - sh
           - "-c"
           - |
-            helm template ${ARGOCD_APP_NAME//_/-} -n ${ARGOCD_APP_NAMESPACE} ${ARGOCD_ENV_HELM_ARGS} . |
-            argocd-vault-plugin generate -s vault-configuration -
+            helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . |
+            argocd-vault-plugin generate -s vault-configuration ./
+          # - bash
+          # - "-o"
+          # - pipefail
+          # - "-c"
+          # - |
+          #   helm template ${ARGOCD_APP_NAME//_/-} -n ${ARGOCD_APP_NAMESPACE} ${ARGOCD_ENV_HELM_ARGS} . |
+          #   argocd-vault-plugin generate -s vault-configuration -
       lockRepo: false
   avp.yaml: |
     apiVersion: argoproj.io/v1alpha1

@@ -15,7 +15,7 @@ spec:
               generators:
                 - git:
                     repoURL: https://github.com/bahmanzadeh/argovault.git
-                    revision: HEAD
+                    revision: main
                     files:
                     - path: ./cluster-tenancy-map.json
                 - clusters: {} # cluster that is locally configured on Argocd
@@ -40,12 +40,16 @@ spec:
         path: mychart1
         plugin:
           name: argocd-vault-plugin-helm
-        helm:
+          # env:
+          #   - name: HELM_ARGS
+          #     value: -f "values.yaml" -f "../values/dev/{{ .name }}/{{ .namespace }}/values.yaml"
+            # - name: VAULT_NAMESPACE
+            #   value: v1
+
           # could be "infra-{{ .namespace }}"
-          releaseName: "infra-services"
-          valueFiles:
-          #- "values.yaml"
-          - "../values/dev/{{ .name }}/{{ .namespace }}/values.yaml"
+          # releaseName: "infra-services"
+          # ignoreMissingValueFiles: false
+          # valueFiles:
       syncPolicy:
         automated:
           prune: true
